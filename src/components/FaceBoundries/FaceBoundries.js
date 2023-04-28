@@ -15,13 +15,11 @@ const FaceBoundries = ({boxes, imageURL}) => {
     })
     console.log (boundriesBoxes);      
     return(
-        <div  className="flex justify-center ma2 absolute">
-            <img id={"imageProvided"} src={imageURL} alt="" width={"500 px"} height={"auto"}></img>
-            <div>{boundriesBoxes}</div>
-            {/* <div className="bounding-box" style={{  top: box.topRow, 
-                                                    bottom: box.bottomRow, 
-                                                    left: box.leftCol, 
-                                                    right: box.rightCol}}></div> */}
+        <div  className="flex justify-center">
+            <div className="ma2 absolute">
+                <img id={"imageProvided"} src={imageURL} alt="" width={"500 px"} height={"auto"}></img>
+                <div>{boundriesBoxes}</div>
+            </div>
         </div>
     )
 }

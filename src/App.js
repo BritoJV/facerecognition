@@ -7,6 +7,8 @@ import Rank from './components/Rank/Rank'
 import ParticlesBg from 'particles-bg'
 import ClarifaiRequestOptions from './components/ClarifaiRequestOptions/ClarifaiRequestOptions'
 import FaceBoundries from './components/FaceBoundries/FaceBoundries'
+import SignIn from './components/SignIn/SignIn'
+import Register from './components/Register/Register'
 import { Component } from 'react';
 
 // console.log(ClarifaiRequestOptions("https://samples.clarifai.com/metro-north.jpg"));
@@ -18,8 +20,9 @@ class App extends Component {
       inputImage: '',
       imageURL: "",
       requestOptions: "",
-      // box: {},
-      boxes: []
+      boxes: [],
+      route: "signIn",
+      isSignedIn: false
     }
   }
 
@@ -28,10 +31,7 @@ class App extends Component {
     let imageWidth = Number(image.width);
     let imageHeight = Number(image.height);
     let clarifaiData = data.outputs[0].data.regions;
-    // console.log(clarifaiData);
-    // let boundingBox = clarifaiData[0].region_info.bounding_box;
     let filteredBoxes = clarifaiData.filter(element => element.value>0.90);
-    // console.log(filteredBoxes);
     let allBoxes = filteredBoxes.map(element => element.region_info.bounding_box);
     let scaledBoxes = allBoxes.map(element =>{
       return{
@@ -44,18 +44,7 @@ class App extends Component {
     console.log(allBoxes);
     console.log(scaledBoxes);
     this.setState({boxes: scaledBoxes});
-    // return{
-    //   leftCol: boundingBox.left_col * imageWidth,
-    //   topRow: boundingBox.top_row * imageHeight,
-    //   rightCol: imageWidth - boundingBox.right_col * imageWidth,
-    //   bottomRow: imageHeight - boundingBox.bottom_row * imageHeight
-    // }
   }
-
-  // displayBoundrieBoxes = (box) => {
-  //   this.setState({box: box});    
-  //   // this.setState({boxes: allBoxes});
-  // }
 
   onInputImageChance = (event) =>{
     this.setState({inputImage: event.target.value});
@@ -71,17 +60,29 @@ class App extends Component {
     .catch(error => console.log('error', error));
   }
 
+  onRouteChange = (newRoute) =>{
+    if (newRoute === 'home') {this.setState({isSignedIn: true})}
+    else {this.setState({isSignedIn: false})}
+    this.setState({route: newRoute})
+  }
+
   render(){
+    const { isSignedIn, imageURL, boxes, route } = this.state
     return (    
       <div className="App">
         <ParticlesBg num={40} type="cobweb" bg={true} />
-        <Navigation />
-        {/* <div className='flex'> */}
-          <Logo />
-          <Rank />
-          <ImageLinkForm onInputImageChance={this.onInputImageChance} onButtonSubmit={this.onButtonSubmit}/>
-        {/* </div> */}
-          <FaceBoundries boxes={this.state.boxes} imageURL={this.state.imageURL}/>
+        <Navigation isSignedIn = {isSignedIn} onRouteChange = {this.onRouteChange}/>
+        {route === "signIn"
+          ?<SignIn onRouteChange = {this.onRouteChange}/>
+          :route === "register"
+            ?<Register onRouteChange = {this.onRouteChange}/>
+            :<div>
+              <Logo />
+              <Rank />
+              <ImageLinkForm onInputImageChance={this.onInputImageChance} onButtonSubmit={this.onButtonSubmit}/>
+              <FaceBoundries boxes={boxes} imageURL={imageURL}/>
+            </div>
+        }
       </div>
     );
   }
