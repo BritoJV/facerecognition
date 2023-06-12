@@ -22,8 +22,25 @@ class App extends Component {
       requestOptions: "",
       boxes: [],
       route: "signIn",
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id:"",
+        name:"",
+        email:"",
+        entries: 0,
+        joined: ""
+      }
     }
+  }
+
+  loadUser = (data) => {
+    this.setState({user: {
+      id:data.id,
+      name:data.name,
+      email:data.email,
+      entries: data.entries,
+      joined: data.joined
+      }})
   }
 
   faceLocations = (data) =>{
@@ -56,7 +73,22 @@ class App extends Component {
     console.log(this.state.requestOptions);
     fetch(`https://api.clarifai.com/v2/models/face-detection/outputs`, this.state.requestOptions)
     .then(response => response.json())
-    .then(response => this.faceLocations(response))
+    .then(response => {
+      if (response){
+        console.log("if working");
+        fetch('http://localhost:3000/image',{
+          method: "put",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            id: this.state.user.id
+          })
+        })
+        .then(response => response.json())
+        .then(count => {
+          this.setState(Object.assign(this.state.user, {entries: count}))
+        })
+      }
+      this.faceLocations(response)})
     .catch(error => console.log('error', error));
   }
 
@@ -73,12 +105,12 @@ class App extends Component {
         <ParticlesBg num={40} type="cobweb" bg={true} />
         <Navigation isSignedIn = {isSignedIn} onRouteChange = {this.onRouteChange}/>
         {route === "signIn"
-          ?<SignIn onRouteChange = {this.onRouteChange}/>
+          ?<SignIn loadUser = {this.loadUser} onRouteChange = {this.onRouteChange}/>
           :route === "register"
-            ?<Register onRouteChange = {this.onRouteChange}/>
+            ?<Register loadUser = {this.loadUser} onRouteChange = {this.onRouteChange}/>
             :<div>
               <Logo />
-              <Rank />
+              <Rank name={this.state.user.name} entries={this.state.user.entries}/>
               <ImageLinkForm onInputImageChance={this.onInputImageChance} onButtonSubmit={this.onButtonSubmit}/>
               <FaceBoundries boxes={boxes} imageURL={imageURL}/>
             </div>

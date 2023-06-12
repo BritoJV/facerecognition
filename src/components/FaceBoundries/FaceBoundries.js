@@ -3,7 +3,7 @@ import './FaceBoundries.css'
 const FaceBoundries = ({boxes, imageURL}) => {
 
     let boundriesBoxes = boxes.map((box, index) =>{
-        console.log (box);
+        // console.log (box);
         let aux = {top: box.topRow, 
             bottom: box.bottomRow, 
             left: box.leftCol, 
@@ -13,7 +13,7 @@ const FaceBoundries = ({boxes, imageURL}) => {
             </div>
         )
     })
-    console.log (boundriesBoxes);      
+    // console.log (boundriesBoxes);      
     return(
         <div  className="flex justify-center">
             <div className="ma2 absolute">
