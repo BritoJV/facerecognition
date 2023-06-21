@@ -1,8 +1,5 @@
 import { Component } from 'react';
 
-
-// const Register = ({onRouteChange}) =>{
-    // return(
 class Register extends Component {
     constructor(props) {
         super(props);
@@ -30,8 +27,6 @@ class Register extends Component {
                 email: this.state.email,
                 password: this.state.password,
                 name: this.state.name,
-                // entries: 0,
-                // joined: new Date()
             })
         })
         .then(response => response.json())

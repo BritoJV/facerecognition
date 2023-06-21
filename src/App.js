@@ -13,11 +13,8 @@ import { Component } from 'react';
 
 // console.log(ClarifaiRequestOptions("https://samples.clarifai.com/metro-north.jpg"));
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      inputImage: '',
+const initialState = {
+  inputImage: '',
       imageURL: "",
       requestOptions: "",
       boxes: [],
@@ -30,7 +27,12 @@ class App extends Component {
         entries: 0,
         joined: ""
       }
-    }
+}
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = initialState;
   }
 
   loadUser = (data) => {
@@ -94,7 +96,7 @@ class App extends Component {
 
   onRouteChange = (newRoute) =>{
     if (newRoute === 'home') {this.setState({isSignedIn: true})}
-    else {this.setState({isSignedIn: false})}
+    else {this.setState(initialState)}
     this.setState({route: newRoute})
   }
 
