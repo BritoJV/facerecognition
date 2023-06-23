@@ -5,28 +5,25 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm'
 import Rank from './components/Rank/Rank'
 import ParticlesBg from 'particles-bg'
-import ClarifaiRequestOptions from './components/ClarifaiRequestOptions/ClarifaiRequestOptions'
 import FaceBoundries from './components/FaceBoundries/FaceBoundries'
 import SignIn from './components/SignIn/SignIn'
 import Register from './components/Register/Register'
 import { Component } from 'react';
 
-// console.log(ClarifaiRequestOptions("https://samples.clarifai.com/metro-north.jpg"));
-
 const initialState = {
   inputImage: '',
-      imageURL: "",
-      requestOptions: "",
-      boxes: [],
-      route: "signIn",
-      isSignedIn: false,
-      user: {
-        id:"",
-        name:"",
-        email:"",
-        entries: 0,
-        joined: ""
-      }
+  imageURL: "",
+  requestOptions: "",
+  boxes: [],
+  route: "signIn",
+  isSignedIn: false,
+  user: {
+    id:"",
+    name:"",
+    email:"",
+    entries: 0,
+    joined: ""
+  }
 }
 
 class App extends Component {
@@ -49,8 +46,7 @@ class App extends Component {
     let image = document.getElementById("imageProvided");
     let imageWidth = Number(image.width);
     let imageHeight = Number(image.height);
-    let clarifaiData = data.outputs[0].data.regions;
-    let filteredBoxes = clarifaiData.filter(element => element.value>0.90);
+    let filteredBoxes = data.filter(element => element.value>0.90);
     let allBoxes = filteredBoxes.map(element => element.region_info.bounding_box);
     let scaledBoxes = allBoxes.map(element =>{
       return{
@@ -60,24 +56,26 @@ class App extends Component {
         bottomRow: imageHeight - element.bottom_row * imageHeight
       }
     })
-    console.log(allBoxes);
-    console.log(scaledBoxes);
     this.setState({boxes: scaledBoxes});
   }
 
   onInputImageChance = (event) =>{
     this.setState({inputImage: event.target.value});
-    this.setState({requestOptions: ClarifaiRequestOptions(event.target.value)});
   }
 
   onButtonSubmit = () => {
     this.setState({imageURL: this.state.inputImage});
-    console.log(this.state.requestOptions);
-    fetch(`https://api.clarifai.com/v2/models/face-detection/outputs`, this.state.requestOptions)
+    fetch('http://localhost:3000/imageurl',{
+          method: "post",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            input: this.state.inputImage
+          })
+      }
+    )
     .then(response => response.json())
     .then(response => {
       if (response){
-        console.log("if working");
         fetch('http://localhost:3000/image',{
           method: "put",
           headers: {'Content-Type': 'application/json'},
