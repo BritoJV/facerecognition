@@ -65,7 +65,7 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({imageURL: this.state.inputImage});
-    fetch('http://localhost:3000/imageurl',{
+    fetch('https://facerecognitionserver-britojv.onrender.com/imageurl',{
           method: "post",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -76,7 +76,7 @@ class App extends Component {
     .then(response => response.json())
     .then(response => {
       if (response){
-        fetch('http://localhost:3000/image',{
+        fetch('https://facerecognitionserver-britojv.onrender.com/image',{
           method: "put",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
