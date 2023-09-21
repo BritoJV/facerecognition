@@ -46,8 +46,9 @@ class App extends Component {
     let image = document.getElementById("imageProvided");
     let imageWidth = Number(image.width);
     let imageHeight = Number(image.height);
-    let filteredBoxes = data.filter(element => element.value>0.90);
+    let filteredBoxes = data.filter(element => element.value>0.85);
     let allBoxes = filteredBoxes.map(element => element.region_info.bounding_box);
+    console.log (data);
     let scaledBoxes = allBoxes.map(element =>{
       return{
         leftCol: element.left_col * imageWidth,
