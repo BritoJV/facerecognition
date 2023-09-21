@@ -6,7 +6,7 @@ const Navigation = ({onInputImageChance, onButtonSubmit}) => {
             <p className="f3">This app will find faces in your picture</p>
             <div className="flex justify-center">
                 <div className="flex justify-center pa3 br3 shadow-5 form">
-                    <input type='text' className="f3 pa2 w-70 center br2" 
+                    <input type='text' className="f3 pa2 w-70 center br2" placeholder = "Add an image URL adress"
                         onChange={onInputImageChance}>
                     </input>
                     <button 

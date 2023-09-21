@@ -75,7 +75,6 @@ class App extends Component {
     )
     .then(response => response.json())
     .then(response => {
-      console.log(response);
       if (response){
         fetch('https://facerecognitionserver-britojv.onrender.com/image',{
           method: "put",
