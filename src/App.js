@@ -10,6 +10,9 @@ import SignIn from './components/SignIn/SignIn'
 import Register from './components/Register/Register'
 import { Component } from 'react';
 
+const imageurlFetchURL = 'https://facerecognitionserver-britojv.onrender.com/imageurl';
+const imageFetchURL = 'https://facerecognitionserver-britojv.onrender.com/image';
+
 const initialState = {
   inputImage: '',
   imageURL: "",
@@ -65,7 +68,7 @@ class App extends Component {
 
   onButtonSubmit = () => {
     this.setState({imageURL: this.state.inputImage});
-    fetch('https://facerecognitionserver-britojv.onrender.com/imageurl',{
+    fetch(imageurlFetchURL,{
           method: "post",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -76,7 +79,7 @@ class App extends Component {
     .then(response => response.json())
     .then(response => {
       if (response){
-        fetch('https://facerecognitionserver-britojv.onrender.com/image',{
+        fetch(imageFetchURL,{
           method: "put",
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({

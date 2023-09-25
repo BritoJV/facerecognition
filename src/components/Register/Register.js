@@ -1,5 +1,7 @@
 import { Component } from 'react';
 
+const registerFetchURL = 'https://facerecognitionserver-britojv.onrender.com/register';
+
 class Register extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +22,7 @@ class Register extends Component {
     };
     onSubmitRegister = () => {
         console.log(this.state);
-        fetch('https://facerecognitionserver-britojv.onrender.com/register',{
+        fetch(registerFetchURL,{
             method:'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

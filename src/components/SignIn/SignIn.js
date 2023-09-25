@@ -1,5 +1,7 @@
 import { Component } from 'react';
 
+const signinFetchURL = 'https://facerecognitionserver-britojv.onrender.com/signin';
+
 class SignIn extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +18,7 @@ class SignIn extends Component {
     };
     onSubmitSignIn = () => {
         console.log(this.state);
-        fetch('https://facerecognitionserver-britojv.onrender.com/signin',{
+        fetch(signinFetchURL,{
             method:'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
