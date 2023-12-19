@@ -17,7 +17,6 @@ class SignIn extends Component {
         this.setState({signInPassword:event.target.value});
     };
     onSubmitSignIn = () => {
-        console.log(this.state);
         fetch(signinFetchURL,{
             method:'post',
             headers: {'Content-Type': 'application/json'},
